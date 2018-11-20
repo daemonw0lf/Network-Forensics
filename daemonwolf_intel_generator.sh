@@ -52,25 +52,25 @@
  curl -s https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1_new.netset | grep -v '^#' | sed -n 's/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/\nip&\n/gp' | grep ip | sed 's/ip//'| sort | uniq |sed '/^\s*$/d' > /var/tmp/firehol_level1_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/firehol_level1_new.txt -s https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1_new.netset -n true > /var/tmp/firehol_level1.intel
  
- # Download's the latest Bambenek IP Banlist, then formats the file and exports the intel file to /var/tmp/bambenek_domains_new.intel
+ # Download's the latest Bambenek Domain Banlist, then formats the file and exports the intel file to /var/tmp/bambenek_domains_new.intel
  curl -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt | grep -v '^#' | cut -d, -f1 | sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/bambenek_domains_new.txt &&
  mal-dns2bro -T dns -f /var/tmp/bambenek_domains_new.txt -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt -n true > /var/tmp/bambenek.intel
  
  # Move to bro load directory
- mv /var/tmp/bbcan177.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/cc.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/dshield.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/immortal.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/ransomware.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/zeus.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/binarydefence.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/malc0de.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/malwaredomains.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/et.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/firehol_level1.intel /nsm/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/bambenek.intel /nsm/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/bbcan177.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/cc.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/dshield.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/immortal.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/ransomware.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/zeus.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/binarydefence.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/malc0de.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/malwaredomains.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/et.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/firehol_level1.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/bambenek.intel /opt/bro/share/bro/site/bro-otx/scripts
  
- cat > /nsm/bro/share/bro/site/bro-otx/scripts/__load__.bro << EOF
+ cat > /opt/bro/share/bro/site/bro-otx/scripts/__load__.bro << EOF
  @load frameworks/intel/seen
  @load frameworks/intel/do_notice
  @load frameworks/files/hash-all-files
@@ -93,4 +93,4 @@
 EOF
 
  # Restart Bro
- /nsm/bro/bin/broctl deploy
+ /opt/bro/bin/broctl deploy
