@@ -76,8 +76,7 @@
  @load frameworks/files/hash-all-files
 
  redef Intel::read_files += {
-        fmt("%s/otx.dat", @DIR),
-        fmt("%s/blocklist-ipset.intel", @DIR),
+                fmt("%s/otx.dat", @DIR),
 		fmt("%s/bbcan177.intel", @DIR),
 		fmt("%s/cc.intel", @DIR),
 		fmt("%s/dshield.intel", @DIR),
