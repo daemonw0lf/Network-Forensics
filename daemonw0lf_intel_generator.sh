@@ -56,6 +56,10 @@
  curl -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt | grep -v '^#' | cut -d, -f1 | sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/bambenek_domains_new.txt &&
  mal-dns2bro -T dns -f /var/tmp/bambenek_domains_new.txt -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt -n true > /var/tmp/bambenek.intel
  
+ # Download's the latest OpenPhish URL's, then formats the file and exports the intel file to /var/tmp/openphish_new.txt
+ curl -s https://openphish.com/feed.txt | grep -v '^#' | sed '/^\s*$/d' > /var/tmp/openphish_new.txt &&  
+ mal-dns2bro -T url -f /var/tmp/openphish_new.txt -s https://openphish.com/feed.txt -n true > /var/tmp/openphish.intel
+ 
  # Move to bro load directory
  mv /var/tmp/bbcan177.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/cc.intel /opt/bro/share/bro/site/bro-otx/scripts
@@ -69,6 +73,7 @@
  mv /var/tmp/et.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/firehol_level1.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/bambenek.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/openphish.intel /opt/bro/share/bro/site/bro-otx/scripts
  
  cat > /opt/bro/share/bro/site/bro-otx/scripts/__load__.bro << EOF
  @load frameworks/intel/seen
@@ -88,6 +93,7 @@
 		fmt("%s/malwaredomains.intel", @DIR),
 		fmt("%s/et.intel", @DIR),
 		fmt("%s/firehol_level1.intel", @DIR),
+		fmt("%s/openphish.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
 EOF
