@@ -64,6 +64,10 @@
  curl -s https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_adservers.txt | sed 's/\||//g' | cut -f1 -d"^" > /var/tmp/easylist_new.txt && 
  mal-dns2bro -T dns -f /var/tmp/easylist_new.txt -s https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_adservers.txt -n true > /var/tmp/easylist.intel
  
+ # Download's the latest ResCure Domains, then formats the file and exports the intel file to /var/tmp/rescure_domains.txt
+ curl -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt | sed -e '1,11d'  | grep -v '^#' | sed '/^\s*$/d' > /var/tmp/rescure_domains.txt && 
+ mal-dns2bro -T dns -f /var/tmp/rescure_domains.txt -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt -n true > /var/tmp/rescure_domains.intel
+ 
  # Move to bro load directory
  mv /var/tmp/bbcan177.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/cc.intel /opt/bro/share/bro/site/bro-otx/scripts
@@ -79,6 +83,7 @@
  mv /var/tmp/bambenek.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/openphish.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/easylist.intel /opt/bro/share/bro/site/bro-otx/scripts
+ mv /var/tmp/rescure_domains.intel /opt/bro/share/bro/site/bro-otx/scripts
  
  cat > /opt/bro/share/bro/site/bro-otx/scripts/__load__.bro << EOF
  @load frameworks/intel/seen
@@ -100,6 +105,7 @@
 		fmt("%s/firehol_level1.intel", @DIR),
 		fmt("%s/easylist.intel", @DIR),
 		fmt("%s/openphish.intel", @DIR),
+		fmt("%s/rescure_domains.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
 EOF
