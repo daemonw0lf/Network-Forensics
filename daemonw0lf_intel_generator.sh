@@ -47,10 +47,6 @@
  # Download's the latest EmergingThreats IP Banlist, then formats the file and exports the intel file to /var/tmp/et_iplist_new.intel
  curl -s http://rules.emergingthreats.net/blockrules/compromised-ips.txt | grep -v '^#' |sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/et_iplist_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/et_iplist_new.txt -s http://rules.emergingthreats.net/blockrules/compromised-ips.txt -n true > /var/tmp/et.intel
-
- # Download's the latest Firehol Level 1 IP Banlist, then formats the file and exports the intel file to /var/tmp/firehol_level1_new_iplist.intel
- curl -s https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1_new.netset | grep -v '^#' | sed -n 's/\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}/\nip&\n/gp' | grep ip | sed 's/ip//'| sort | uniq |sed '/^\s*$/d' > /var/tmp/firehol_level1_new.txt &&
- mal-dns2bro -T ip -f /var/tmp/firehol_level1_new.txt -s https://raw.githubusercontent.com/ktsaou/blocklist-ipsets/master/firehol_level1_new.netset -n true > /var/tmp/firehol_level1.intel
  
  # Download's the latest Bambenek Domain Banlist, then formats the file and exports the intel file to /var/tmp/bambenek_domains_new.intel
  curl -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt | grep -v '^#' | cut -d, -f1 | sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/bambenek_domains_new.txt &&
@@ -79,7 +75,6 @@
  mv /var/tmp/malc0de.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/malwaredomains.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/et.intel /opt/bro/share/bro/site/bro-otx/scripts
- mv /var/tmp/firehol_level1.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/bambenek.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/openphish.intel /opt/bro/share/bro/site/bro-otx/scripts
  mv /var/tmp/easylist.intel /opt/bro/share/bro/site/bro-otx/scripts
@@ -102,7 +97,6 @@
 		fmt("%s/malc0de.intel", @DIR),
 		fmt("%s/malwaredomains.intel", @DIR),
 		fmt("%s/et.intel", @DIR),
-		fmt("%s/firehol_level1.intel", @DIR),
 		fmt("%s/easylist.intel", @DIR),
 		fmt("%s/openphish.intel", @DIR),
 		fmt("%s/rescure_domains.intel", @DIR),
