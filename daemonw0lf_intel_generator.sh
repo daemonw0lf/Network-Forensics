@@ -1,10 +1,10 @@
  #######################################################################################
- #             DaemonWolf Labs - Threat Intelligence Generator for Bro                 #
+ #             DaemonWolf Labs - Threat Intelligence Generator for Bro #
  #######################################################################################
- #  This script will install all dependancies that do not exist. All blocklists are downloaded, parsed and pre-formatted to be loaded into Bro's Intelligence Framework.
+ #  This script will install dependancies.
+ #  Blocklists are downloaded, parsed and pre-formatted. They are then loaded into Bro to be matched against seen traffic.
  #
- #  PREREQUISITS
- # You must have Bro and mal-dnssearch installed (credit to jonschipp https://github.com/jonschipp/mal-dnssearch).
+ #  credit to jonschipp https://github.com/jonschipp/mal-dnssearch).
  # 
  # BEGIN
  #
@@ -30,7 +30,7 @@
  # Download's the latest C&C Domains blocklist, then formats the file and exports the intel file to /var/tmp/cc_domains_new.intel
  curl -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt | grep -v '^#' | sed 's/,.*//' | sed '/^\s*$/d' > /var/tmp/cc_domains_new.txt &&
  mal-dns2bro -T dns -f /var/tmp/cc_domains_new.txt -s http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt -n true > /var/tmp/cc.intel
-if [ -e "/var/tmp/cc.intel" ]; then
+ if [ -e "/var/tmp/cc.intel" ]; then
  echo "C&C Domains list Ok"
  else
  echo "failed to download C&C Domains"
@@ -70,7 +70,7 @@ if [ -e "/var/tmp/cc.intel" ]; then
  # Download's the latest Binary Defence IP Banlist, then formats the file and exports the intel file to /var/tmp/binarydefence_ips_new.intel
  curl -s https://www.binarydefense.com/banlist.txt | grep -v '^#' |sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/binarydefence_ips_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/binarydefence_ips_new.txt -s https://www.binarydefense.com/banlist.txt -n true > /var/tmp/binarydefence.intel
-if [ -e "/var/tmp/binarydefence.intel" ]; then
+ if [ -e "/var/tmp/binarydefence.intel" ]; then
  echo "binarydefence list Ok"
  else
  echo "failed to download binarydefence"
@@ -78,7 +78,7 @@ if [ -e "/var/tmp/binarydefence.intel" ]; then
  # Download's the latest Malc0de IP Banlist, then formats the file and exports the intel file to /var/tmp/malc0de_ip_new.intel
  curl -s http://malc0de.com/bl/IP_Blacklist.txt | grep -v '^#' | grep -v '^//' |sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/malc0de_ip_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/malc0de_ip_new.txt -s http://malc0de.com/bl/IP_Blacklist.txt -n true > /var/tmp/malc0de.intel
-if [ -e "/var/tmp/malc0de.intel" ]; then
+ if [ -e "/var/tmp/malc0de.intel" ]; then
  echo "malc0de list Ok"
  else
  echo "failed to download malc0de"
@@ -86,7 +86,7 @@ if [ -e "/var/tmp/malc0de.intel" ]; then
  # Download's the latest MalwareDomain's IP Banlist, then formats the file and exports the intel file to /var/tmp/malwaredomains_iplist_new.intel
  curl -s https://panwdbl.appspot.com/lists/mdl.txt | grep -v '^#' |sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/malwaredomains_iplist_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/malwaredomains_iplist_new.txt -s https://panwdbl.appspot.com/lists/mdl.txt -n true > /var/tmp/malwaredomains.intel
-if [ -e "/var/tmp/malwaredomains.intel" ]; then
+ if [ -e "/var/tmp/malwaredomains.intel" ]; then
  echo "malwaredomains list Ok"
  else
  echo "failed to download malwaredomains"
@@ -94,7 +94,7 @@ if [ -e "/var/tmp/malwaredomains.intel" ]; then
  # Download's the latest EmergingThreats IP Banlist, then formats the file and exports the intel file to /var/tmp/et_iplist_new.intel
  curl -s http://rules.emergingthreats.net/blockrules/compromised-ips.txt | grep -v '^#' |sed '/^\s*$/d' | sed '/^\s*$/d' > /var/tmp/et_iplist_new.txt &&
  mal-dns2bro -T ip -f /var/tmp/et_iplist_new.txt -s http://rules.emergingthreats.net/blockrules/compromised-ips.txt -n true > /var/tmp/et.intel
-if [ -e "/var/tmp/et.intel" ]; then
+ if [ -e "/var/tmp/et.intel" ]; then
  echo "EmergingThreats list Ok"
  else
  echo "failed to download EmergingThreats"
@@ -124,49 +124,46 @@ if [ -e "/var/tmp/et.intel" ]; then
  echo "failed to download easylist"
  fi
  # Download's the latest ResCure Domains, then formats the file and exports the intel file to /var/tmp/rescure_domains.txt
- curl -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt | sed -e '1,11d'  | grep -v '^#' | sed '/^\s*$/d' > /var/tmp/rescure_domains.txt &&
-mal-dns2bro -T dns -f /var/tmp/rescure_domains.txt -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt -n true > /var/tmp/rescure_domains.intel
+ curl -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt | sed -e '1,11d' | grep -v '^#' | sed '/^\s*$/d' > /var/tmp/rescure_domains.txt &&
+ mal-dns2bro -T dns -f /var/tmp/rescure_domains.txt -s https://rescure.fruxlabs.com/rescure_domain_blacklist.txt -n true > /var/tmp/rescure_domains.intel
  if [ -e "/var/tmp/rescure_domains.intel" ]; then
  echo "rescure list Ok"
  else
  echo "failed to download rescure"
  fi
-
 # Check if destination directory exists
-if [ -d "/opt/bro/share/bro/site" ]; then
+if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
  echo "Directory Check = PASS"
  else
- mkdir "/opt/bro/share/bro/site"
+ mkdir "/opt/bro/share/bro/site/intelligence"
  fi
 # Check if load file exists
- if [ -e "/opt/bro/share/bro/site/__load__.bro" ]; then
+ if [ -e "/opt/bro/share/bro/site/intelligence/__load__.bro" ]; then
  echo "Load File = PASS"
  else
- touch "/opt/bro/share/bro/site/__load__.bro"
+ touch "/opt/bro/share/bro/site/intelligence/__load__.bro"
  fi
-
  # Move newly created .intel files to load directory
- mv /var/tmp/bbcan177.intel /opt/bro/share/bro/site
- mv /var/tmp/cc.intel /opt/bro/share/bro/site
- mv /var/tmp/dshield.intel /opt/bro/share/bro/site
- mv /var/tmp/immortal.intel /opt/bro/share/bro/site
- mv /var/tmp/ransomware.intel /opt/bro/share/bro/site
- mv /var/tmp/zeus.intel /opt/bro/share/bro/site/
- mv /var/tmp/binarydefence.intel /opt/bro/share/bro/site
- mv /var/tmp/malc0de.intel /opt/bro/share/bro/site
- mv /var/tmp/malwaredomains.intel /opt/bro/share/bro
- mv /var/tmp/et.intel /opt/bro/share/bro/site
- mv /var/tmp/bambenek.intel /opt/bro/share/bro/site
- mv /var/tmp/openphish.intel /opt/bro/share/bro/site
- mv /var/tmp/easylist.intel /opt/bro/share/bro/site
-
+ mv /var/tmp/bbcan177.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/cc.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/dshield.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/immortal.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/ransomware.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/zeus.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/binarydefence.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/malc0de.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/malwaredomains.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/et.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/bambenek.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/openphish.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/easylist.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/rescure_domains.intel /opt/bro/share/bro/site/intelligence
  # Replace the contents of __load__.bro with below
- cat > /opt/bro/share/bro/site/__load__.bro << EOF
+ cat > /opt/bro/share/bro/site/intelligence/__load__.bro << EOF
  @load frameworks/intel/seen
  @load frameworks/intel/do_notice
  @load frameworks/files/hash-all-files
  redef Intel::read_files += {
-                fmt("%s/otx.dat", @DIR),
 		fmt("%s/bbcan177.intel", @DIR),
 		fmt("%s/cc.intel", @DIR),
 		fmt("%s/dshield.intel", @DIR),
@@ -179,9 +176,21 @@ if [ -d "/opt/bro/share/bro/site" ]; then
 		fmt("%s/et.intel", @DIR),
 		fmt("%s/openphish.intel", @DIR),
 		fmt("%s/easylist.intel", @DIR),
+		fmt("%s/rescure_domains.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
 EOF
-
+ 
+ # Check local.bro for the new intelligence path, add if not found...
+ PATTERN='@load site/intelligence'
+ FILE='/opt/bro/share/bro/site/local.bro'
+ if grep -Fxq "@load site/intelligence" '/opt/bro/share/bro/site/local.bro';
+ then
+    echo "yay '$PATTERN' was found in '$FILE'"
+ else
+    echo "'$PATTERN' was not found in '$FILE', adding now..."
+     echo '@load site/intelligence' >> /opt/bro/share/bro/site/local.bro
+ fi
+ 
  # Restart Bro
  /opt/bro/bin/broctl deploy
