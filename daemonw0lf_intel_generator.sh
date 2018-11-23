@@ -4,10 +4,9 @@
  #  This script will install dependancies.
  #  Blocklists are downloaded, parsed and pre-formatted. They are then loaded into Bro to be matched against seen traffic.
  #
- #  credit to jonschipp https://github.com/jonschipp/mal-dnssearch).
+ #  Credit to jonschipp (https://github.com/jonschipp/mal-dnssearch)
  # 
  # BEGIN
- #
  # Dependancy Check for mal-dnssearch (credit to jonschipp)
  if [ ! -d ~/mal-dnssearch ]; then
    echo "DOES NOT EXIST"
