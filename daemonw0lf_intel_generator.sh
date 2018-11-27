@@ -274,7 +274,7 @@ if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
 		fmt("%s/hphosts_mmt.intel", @DIR),
 		fmt("%s/hphosts_pha.intel", @DIR),
 		fmt("%s/hphosts_pup.intel", @DIR),
-		fmt("%s/hphosts_wrz.intel.intel", @DIR),
+		fmt("%s/hphosts_wrz.intel", @DIR),
 		fmt("%s/rescure_domains.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
