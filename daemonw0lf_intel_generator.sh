@@ -130,6 +130,86 @@
  else
  echo "failed to download rescure"
  fi
+ # The following are hosts in the hpHosts database with the EMD classification ONLY
+ curl -s https://hosts-file.net/emd.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_emd.txt &&
+ mal-dns2bro -T dns -f /var/tmp/hphosts_emd.txt -s https://hosts-file.net/emd.txt -n true > /var/tmp/hphosts_emd.intel
+ if [ -e "/var/tmp/hphosts_emd.intel" ]; then
+ echo "hphosts_emd list Ok"
+ else
+ echo "failed to download hphosts_emd"
+ fi
+ # The following are hosts in the hpHosts database with the AD_servers classification ONLY
+ curl -s https://hosts-file.net/ad_servers.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_ad_servers.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_ad_servers.txt -s https://hosts-file.net/ad_servers.txt -n true > /var/tmp/hphosts_ad_servers.intel
+ if [ -e "/var/tmp/hphosts_ad_servers.intel" ]; then
+ echo "hphosts_ad_servers list Ok"
+ else
+ echo "failed to download hphosts_ad_servers"
+ fi
+ # The following are hosts in the hpHosts database with the Phishing classification ONLY
+ curl -s https://hosts-file.net/psh.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_psh.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_psh.txt -s https://hosts-file.net/psh.txt -n true > /var/tmp/hphosts_psh.intel
+ if [ -e "/var/tmp/hphosts_psh.intel" ]; then
+ echo "hphosts_psh list Ok"
+ else
+ echo "failed to download hphosts_psh"
+ fi
+ # The following are hosts in the hpHosts database with the Exploit classification ONLY
+ curl -s https://hosts-file.net/exp.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_exp.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_exp.txt -s https://hosts-file.net/exp.txt -n true > /var/tmp/hphosts_exp.intel
+ if [ -e "/var/tmp/hphosts_exp.intel" ]; then
+ echo "hphosts_exp list Ok"
+ else
+ echo "failed to download hphosts_exp"
+ fi
+ # The following are hosts in the hpHosts database with the Fraud classification ONLY
+ curl -s https://hosts-file.net/fsa.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_fsa.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_fsa.txt -s https://hosts-file.net/fsa.txt -n true > /var/tmp/hphosts_fsa.intel
+ if [ -e "/var/tmp/hphosts_fsa.intel" ]; then
+ echo "hphosts_fsa list Ok"
+ else
+ echo "failed to download hphosts_fsa"
+ fi
+ # The following are hosts in the hpHosts database with the Hijack classification ONLY
+ curl -s https://hosts-file.net/hjk.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_hjk.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_hjk.txt -s https://hosts-file.net/hjk.txt -n true > /var/tmp/hphosts_hjk.intel
+ if [ -e "/var/tmp/hphosts_hjk.intel" ]; then
+ echo "hphosts_hjk list Ok"
+ else
+ echo "failed to download hphosts_hjk"
+ fi
+ # The following are hosts in the hpHosts database with the MMT classification ONLY
+ curl -s https://hosts-file.net/mmt.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_mmt.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_mmt.txt -s https://hosts-file.net/mmt.txt -n true > /var/tmp/hphosts_mmt.intel
+ if [ -e "/var/tmp/hphosts_mmt.intel" ]; then
+ echo "hphosts_mmt list Ok"
+ else
+ echo "failed to download hphosts_mmt"
+ fi
+ # The following are hosts in the hpHosts database with the Pharmacy classification ONLY
+ curl -s https://hosts-file.net/pha.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_pha.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_pha.txt -s https://hosts-file.net/pha.txt -n true > /var/tmp/hphosts_pha.intel
+ if [ -e "/var/tmp/hphosts_pha.intel" ]; then
+ echo "hphosts_pha list Ok"
+ else
+ echo "failed to download hphosts_pha"
+ fi
+ # The following are hosts in the hpHosts database with the PUP classification ONLY
+ curl -s https://hosts-file.net/pup.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_pup.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_pup.txt -s https://hosts-file.net/pup.txt -n true > /var/tmp/hphosts_pup.intel
+ if [ -e "/var/tmp/hphosts_pup.intel" ]; then
+ echo "hphosts_pup list Ok"
+ else
+ echo "failed to download hphosts_pup"
+ fi
+ # The following are hosts in the hpHosts database with the Warez classification ONLY
+ curl -s https://hosts-file.net/wrz.txt | grep -v '^#' | sed '/^::1/ d' | sed 's/\<127.0.0.1\>//g' | sed '/^ localhost/ d' | tr -d " \r" > /var/tmp/hphosts_wrz.txt && 
+ mal-dns2bro -T dns -f /var/tmp/hphosts_wrz.txt -s https://hosts-file.net/wrz.txt -n true > /var/tmp/hphosts_wrz.intel
+ if [ -e "/var/tmp/hphosts_wrz.intel" ]; then
+ echo "hphosts_wrz list Ok"
+ else
+ echo "failed to download hphosts_wrz"
+ fi
 # Check if destination directory exists
 if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
  echo "Directory Check = PASS"
@@ -157,6 +237,16 @@ if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
  mv /var/tmp/openphish.intel /opt/bro/share/bro/site/intelligence
  mv /var/tmp/easylist.intel /opt/bro/share/bro/site/intelligence
  mv /var/tmp/rescure_domains.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_emd.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_ad_servers.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_psh.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_exp.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_fsa.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_hjk.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_mmt.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_pha.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_pup.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/hphosts_wrz.intel /opt/bro/share/bro/site/intelligence
  # Replace the contents of __load__.bro with below
  cat > /opt/bro/share/bro/site/intelligence/__load__.bro << EOF
  @load frameworks/intel/seen
@@ -175,6 +265,16 @@ if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
 		fmt("%s/et.intel", @DIR),
 		fmt("%s/openphish.intel", @DIR),
 		fmt("%s/easylist.intel", @DIR),
+		fmt("%s/hphosts_emd.intel", @DIR),
+		fmt("%s/hphosts_ad_servers.intel", @DIR),
+		fmt("%s/hphosts_psh.intel", @DIR),
+		fmt("%s/hphosts_exp.intel", @DIR),
+		fmt("%s/hphosts_fsa.intel", @DIR),
+		fmt("%s/hphosts_hjk.intel", @DIR),
+		fmt("%s/hphosts_mmt.intel", @DIR),
+		fmt("%s/hphosts_pha.intel", @DIR),
+		fmt("%s/hphosts_pup.intel", @DIR),
+		fmt("%s/hphosts_wrz.intel", @DIR),
 		fmt("%s/rescure_domains.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
