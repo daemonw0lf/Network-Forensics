@@ -8,11 +8,10 @@
  # 
  # BEGIN
  # Dependancy Check for mal-dnssearch (credit to jonschipp)
- if [ ! -d ~/mal-dnssearch ]; then
+ if [ ! -d mal-dnssearch ]; then
    echo "DOES NOT EXIST"
-    cd ~/
      git clone https://github.com/jonschipp/mal-dnssearch
-      cd ~/mal-dnssearch
+      cd mal-dnssearch
        make install
  else
    echo "Requirements = PASS"
