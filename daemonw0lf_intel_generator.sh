@@ -14,7 +14,6 @@
      git clone https://github.com/jonschipp/mal-dnssearch
       cd ~/mal-dnssearch
        make install
-        exit 1;
  else
    echo "Requirements = PASS"
  fi
