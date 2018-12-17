@@ -208,13 +208,13 @@
  else
  echo "failed to download hphosts_wrz"
  fi
- # The following is used for testing successful intel.log creating. Curl or browsing to testmyids.com should create an intel log file
- echo "testmyids.com" > /var/tmp/testmyids.txt &&
- mal-dns2bro -T dns -f /var/tmp/testmyids.txt -s http://testmyids.com -n true > /var/tmp/testmyids.intel
- if [ -e "/var/tmp/testmyids.intel" ]; then
- echo "testmyids list Ok"
+ # The following is a list of well known websites to test A/V and IDS
+ curl -s https://raw.githubusercontent.com/daemonw0lf/Network-Forensics/master/av_test.txt | grep -v '^#' | tr -d " \r" > /var/tmp/av_test.txt &&
+ mal-dns2bro -T dns -f /var/tmp/av_test.txt -s https://raw.githubusercontent.com/daemonw0lf/Network-Forensics/master/av_test.txt -n true > /var/tmp/av_test.intel
+ if [ -e "/var/tmp/av_test.intel" ]; then
+ echo "av_test list Ok"
  else
- echo "failed to download testmyids list"
+ echo "failed to download av_test"
  fi
  # Check if destination directory exists
  if [ -d "/opt/bro/share/bro/site/intelligence" ]; then
@@ -253,7 +253,7 @@
  mv /var/tmp/hphosts_pha.intel /opt/bro/share/bro/site/intelligence
  mv /var/tmp/hphosts_pup.intel /opt/bro/share/bro/site/intelligence
  mv /var/tmp/hphosts_wrz.intel /opt/bro/share/bro/site/intelligence
- mv /var/tmp/testmyids.intel /opt/bro/share/bro/site/intelligence
+ mv /var/tmp/av_test.intel /opt/bro/share/bro/site/intelligence
  # Replace the contents of __load__.bro with below
  cat > /opt/bro/share/bro/site/intelligence/__load__.bro << EOF
  @load frameworks/intel/seen
@@ -282,7 +282,7 @@
 		fmt("%s/hphosts_pha.intel", @DIR),
 		fmt("%s/hphosts_pup.intel", @DIR),
 		fmt("%s/hphosts_wrz.intel", @DIR),
-		fmt("%s/testmyids.intel", @DIR),
+		fmt("%s/av_test.intel", @DIR),
 		fmt("%s/rescure_domains.intel", @DIR),
 		fmt("%s/bambenek.intel", @DIR)
  };
