@@ -1,0 +1,11 @@
+# 8 well known websites to test your AntiVirus or IDS. Additional sites may be added in single line, single entry format.
+# Reference: https://www.geckoandfly.com/24644/test-antivirus-security/
+knowbe4.com
+spyshelter.com
+wicar.org
+testmyav.com
+eicar.org
+grc.com
+fortiguard.com
+ikarussecurity.com
+testmyids.com
