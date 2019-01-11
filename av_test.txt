@@ -9,3 +9,5 @@ grc.com
 fortiguard.com
 ikarussecurity.com
 testmyids.com
+www.amtso.org
+amtso.security-features-check.com
